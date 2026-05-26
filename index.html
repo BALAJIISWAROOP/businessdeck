@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Createvyral — Investor Deck · April 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0a0a0a;--white:#f5f2eb;--orange:#FF5A1F;--orange2:#FF8A5A;
+  --dim:#141414;--dim2:#1e1e1e;--muted:#777;--border:rgba(255,255,255,0.08);
+  --syne:'Syne',sans-serif;--dm:'DM Sans',sans-serif;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--black);font-family:var(--dm);color:var(--white);}
+
+/* LAYOUT */
+.deck{width:100vw;height:100vh;display:flex;flex-direction:column;position:relative;}
+.slide{display:none;flex:1;position:relative;overflow:hidden;}
+.slide.active{display:flex;flex-direction:column;}
+.slide-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:3.5rem 5rem 2rem;}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 5rem;border-bottom:0.5px solid var(--border);flex-shrink:0;}
+.nav-logo{font-family:var(--syne);font-weight:800;font-size:16px;color:var(--orange);letter-spacing:0.08em;}
+.nav-right{display:flex;align-items:center;gap:16px;}
+.nav-slide-info{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:52px;text-align:center;}
+.btn{background:transparent;border:0.5px solid rgba(255,255,255,0.15);color:var(--white);padding:7px 18px;border-radius:6px;cursor:pointer;font-family:var(--dm);font-size:13px;letter-spacing:0.02em;transition:all 0.2s;}
+.btn:hover{border-color:var(--orange);background:rgba(255,90,31,0.08);color:var(--orange);}
+.btn:disabled{opacity:0.25;cursor:default;pointer-events:none;}
+
+/* PROGRESS */
+.progress-bar{height:2px;background:var(--border);flex-shrink:0;}
+.progress-fill{height:100%;background:var(--orange);transition:width 0.4s ease;}
+
+/* DOTS */
+.dots{display:flex;gap:5px;padding:10px 5rem;flex-shrink:0;flex-wrap:wrap;}
+.dot{width:18px;height:2px;background:var(--border);border-radius:2px;cursor:pointer;transition:background 0.2s;}
+.dot.active{background:var(--orange);}
+.dot:hover{background:var(--orange2);}
+
+/* SLIDE NUMBER */
+.slide-num{position:absolute;bottom:2rem;right:5rem;font-size:11px;color:rgba(255,255,255,0.15);font-family:var(--syne);font-weight:700;letter-spacing:0.1em;}
+
+/* TYPE */
+.tag{display:inline-block;font-size:10px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--orange);border:0.5px solid rgba(255,90,31,0.5);border-radius:4px;padding:3px 10px;margin-bottom:0.9rem;}
+.h1{font-family:var(--syne);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.05;color:var(--white);margin-bottom:0.5rem;}
+.h2{font-family:var(--syne);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;line-height:1.1;color:var(--white);margin-bottom:0.5rem;}
+.accent{color:var(--orange);}
+.sub{font-size:14px;color:var(--muted);line-height:1.7;font-weight:300;max-width:580px;}
+.divider{width:36px;height:2px;background:var(--orange);margin:1rem 0;}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1.2rem;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:1.2rem;}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-top:1.2rem;}
+.g2c{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start;}
+
+/* CARDS */
+.card{background:var(--dim2);border:0.5px solid var(--border);border-radius:10px;padding:1.1rem 1.3rem;}
+.card-lbl{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:0.35rem;}
+.card-val{font-family:var(--syne);font-size:1.5rem;font-weight:700;color:var(--white);line-height:1;}
+.card-desc{font-size:11px;color:var(--muted);margin-top:0.3rem;}
+.card-body{font-size:13px;color:rgba(245,242,235,0.8);line-height:1.65;margin-top:6px;}
+
+/* FEATURE LIST */
+.flist{list-style:none;margin-top:0.8rem;}
+.flist li{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:0.5px solid var(--border);font-size:13px;color:rgba(245,242,235,0.85);}
+.flist li:last-child{border-bottom:none;}
+.flist li::before{content:'';width:5px;height:5px;min-width:5px;background:var(--orange);border-radius:50%;margin-top:5px;}
+
+/* COVER */
+.cover-meta{display:flex;gap:2.5rem;margin-top:2rem;flex-wrap:wrap;}
+.cm{font-size:12px;color:var(--muted);}
+.cm strong{display:block;font-size:14px;color:var(--white);font-weight:500;margin-bottom:2px;}
+.orange-line{width:100%;height:1px;background:linear-gradient(to right,var(--orange),transparent);margin:1.8rem 0;}
+
+/* STAT ROW */
+.stat-row{display:flex;gap:2rem;margin-top:1.2rem;flex-wrap:wrap;}
+.stat-item .sn{font-family:var(--syne);font-size:1.8rem;font-weight:700;color:var(--orange);}
+.stat-item .sl{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* PRICE */
+.price-card{background:var(--dim2);border:0.5px solid var(--border);border-radius:10px;padding:1.1rem;display:flex;flex-direction:column;}
+.price-card.hot{border-color:var(--orange);background:rgba(255,90,31,0.05);}
+.ptier{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:4px;}
+.pamt{font-family:var(--syne);font-size:1.3rem;font-weight:700;color:var(--white);}
+.pmo{font-size:11px;color:var(--muted);}
+.pfor{font-size:11px;color:var(--orange);margin-top:4px;}
+.pfeat{font-size:11px;color:rgba(245,242,235,0.65);margin-top:8px;line-height:1.75;}
+.pop-badge{display:inline-block;background:var(--orange);color:#fff;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border-radius:3px;margin-bottom:6px;}
+
+/* CAMPAIGN */
+.camp-hero{background:var(--dim2);border:0.5px solid var(--orange);border-radius:12px;padding:1.3rem;position:relative;overflow:hidden;}
+.camp-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--orange);}
+.camp-brand{font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--orange);margin-bottom:5px;}
+.camp-name{font-family:var(--syne);font-size:1.2rem;font-weight:800;color:var(--white);margin-bottom:8px;}
+.camp-desc{font-size:12px;color:rgba(245,242,235,0.7);line-height:1.6;margin-bottom:1rem;}
+.camp-stats{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.cs-n{font-family:var(--syne);font-size:1.3rem;font-weight:700;color:var(--orange);line-height:1;}
+.cs-l{font-size:10px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:0.08em;}
+.collab-card{background:var(--dim2);border:0.5px solid var(--border);border-radius:10px;padding:1.1rem;position:relative;overflow:hidden;}
+.collab-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:rgba(255,90,31,0.35);}
+.ctag{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:5px;}
+.cname{font-family:var(--syne);font-size:1rem;font-weight:700;color:var(--white);}
+.cdesc{font-size:12px;color:rgba(245,242,235,0.7);line-height:1.6;margin-top:5px;}
+.cstat{font-family:var(--syne);font-size:1.1rem;font-weight:700;color:var(--orange);margin-top:7px;}
+.total-banner{background:rgba(255,90,31,0.07);border:0.5px solid rgba(255,90,31,0.25);border-radius:8px;padding:0.9rem 1.3rem;display:flex;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:1rem;}
+.tb-label{font-size:12px;color:var(--muted);}
+.tb-val{font-family:var(--syne);font-size:1.4rem;font-weight:800;color:var(--orange);}
+
+/* REVENUE */
+.rev-hero{background:rgba(255,90,31,0.06);border:1px solid var(--orange);border-radius:12px;padding:1.1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;}
+.rh-label{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin-bottom:3px;}
+.rh-val{font-family:var(--syne);font-size:2rem;font-weight:800;color:var(--white);line-height:1;}
+.rh-sub{font-size:12px;color:var(--muted);margin-top:3px;}
+.rh-tag{font-size:12px;color:rgba(245,242,235,0.7);line-height:1.6;max-width:220px;}
+.rev-table{width:100%;border-collapse:collapse;margin-bottom:8px;}
+.rev-table th{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);padding:5px 10px;text-align:left;border-bottom:0.5px solid var(--border);}
+.rev-table td{font-size:12px;padding:8px 10px;border-bottom:0.5px solid var(--border);color:rgba(245,242,235,0.85);vertical-align:middle;}
+.rev-table tr.addon td{color:var(--muted);font-size:11px;}
+.rev-table td.num{font-family:var(--syne);font-weight:700;color:var(--orange);text-align:right;}
+.rev-table td.cr{text-align:right;color:var(--muted);}
+.pbadge{display:inline-block;font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px;}
+.pb-s{background:rgba(255,90,31,0.12);color:var(--orange);}
+.pb-g{background:var(--orange);color:#fff;}
+.pb-p{background:rgba(255,90,31,0.22);color:var(--orange2);}
+.pb-a{background:rgba(255,255,255,0.05);color:var(--muted);}
+.rev-total{background:var(--dim2);border:0.5px solid var(--border);border-radius:8px;padding:9px 14px;display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.rt-label{font-size:11px;color:var(--muted);}
+.rt-val{font-family:var(--syne);font-size:1.2rem;font-weight:700;color:var(--orange);}
+
+/* MOAT */
+.moat-card{background:var(--dim2);border:0.5px solid var(--border);border-radius:10px;padding:1rem 1.2rem;}
+.mn{font-family:var(--syne);font-size:1.5rem;font-weight:800;color:rgba(255,90,31,0.18);line-height:1;margin-bottom:5px;}
+.mt{font-size:13px;font-weight:500;color:var(--white);margin-bottom:4px;}
+.md{font-size:11px;color:var(--muted);line-height:1.6;}
+
+/* LOAN */
+.elig-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.elig-lbl{font-size:11px;color:rgba(245,242,235,0.8);min-width:185px;}
+.elig-track{flex:1;height:7px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;}
+.elig-fill{height:100%;background:var(--orange);border-radius:4px;}
+.elig-pct{font-family:var(--syne);font-size:11px;font-weight:700;color:var(--orange);min-width:30px;text-align:right;}
+.loan-tier{background:var(--dim2);border:0.5px solid var(--border);border-radius:9px;padding:0.9rem 1.1rem;margin-bottom:8px;}
+.lt-name{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin-bottom:3px;}
+.lt-amt{font-family:var(--syne);font-size:1.1rem;font-weight:700;color:var(--white);}
+.lt-for{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5;}
+.nbfc-bar{background:var(--orange);border-radius:8px;padding:0.75rem 1.1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.nbfc-lbl{font-size:11px;color:rgba(255,255,255,0.75);}
+.nbfc-val{font-family:var(--syne);font-size:13px;font-weight:700;color:#fff;}
+.note{font-size:11px;color:var(--muted);margin-top:9px;line-height:1.6;padding:7px 12px;border-left:2px solid var(--orange);}
+
+/* GOVT */
+.bill-badge{display:inline-block;background:rgba(255,90,31,0.1);border:0.5px solid rgba(255,90,31,0.4);border-radius:5px;padding:4px 12px;font-size:11px;color:var(--orange);margin-bottom:0.8rem;}
+.map-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:0.5px solid var(--border);font-size:12px;}
+.map-row:last-child{border-bottom:none;}
+.map-bill{color:rgba(245,242,235,0.75);flex:1;}
+.map-check{color:var(--orange);font-weight:700;min-width:14px;}
+.map-cv{color:var(--orange);font-size:11px;min-width:160px;text-align:right;}
+.phase-row{display:flex;gap:10px;padding:7px 0;border-bottom:0.5px solid var(--border);font-size:12px;}
+.phase-row:last-child{border-bottom:none;}
+.phase-lbl{font-family:var(--syne);font-weight:700;color:var(--orange);min-width:95px;font-size:11px;padding-top:1px;}
+.phase-desc{color:rgba(245,242,235,0.75);line-height:1.55;}
+.endgame{background:rgba(255,90,31,0.06);border:0.5px solid rgba(255,90,31,0.25);border-radius:9px;padding:0.9rem 1.1rem;margin-top:10px;font-size:12px;color:rgba(245,242,235,0.85);line-height:1.7;}
+
+/* EQUITY */
+.eq-bar{height:42px;border-radius:9px;overflow:hidden;display:flex;width:100%;margin-top:0.8rem;}
+.eq-main{background:var(--orange);display:flex;align-items:center;padding:0 1rem;}
+.eq-vhub{background:rgba(255,90,31,0.15);border:0.5px solid var(--orange);display:flex;align-items:center;padding:0 0.7rem;}
+.eq-lbl{font-family:var(--syne);font-weight:700;font-size:13px;color:#fff;}
+.eq-lbl2{font-family:var(--syne);font-weight:700;font-size:10px;color:var(--orange);}
+.eq-legend{display:flex;flex-direction:column;gap:6px;margin-top:0.8rem;}
+.eq-leg-item{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(245,242,235,0.8);}
+.eq-dot{width:9px;height:9px;border-radius:50%;}
+
+/* ASK */
+.raise-box{background:var(--orange);border-radius:12px;padding:1.4rem 1.6rem;margin-bottom:1rem;}
+.r-lbl{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.7);}
+.r-val{font-family:var(--syne);font-size:2rem;font-weight:800;color:#fff;margin-top:4px;}
+.r-sub{font-size:13px;color:rgba(255,255,255,0.8);margin-top:4px;}
+.use-item{background:var(--dim2);border:0.5px solid var(--border);border-radius:8px;padding:9px 13px;font-size:12px;color:rgba(245,242,235,0.85);display:flex;align-items:flex-start;gap:10px;margin-bottom:6px;}
+.ui-amt{font-weight:500;color:var(--white);margin-bottom:2px;}
+.ui-desc{font-size:11px;color:var(--muted);}
+.quote-box{margin-top:10px;font-size:12px;color:rgba(245,242,235,0.7);line-height:1.8;padding:10px 14px;border-left:2px solid var(--orange);font-style:italic;}
+
+/* PILL */
+.pill-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:0.9rem;}
+.pill{background:var(--dim2);border:0.5px solid var(--border);border-radius:20px;padding:4px 13px;font-size:12px;color:rgba(245,242,235,0.8);}
+
+/* USE ITEMS */
+.use-row{display:flex;flex-direction:column;gap:7px;margin-top:0.9rem;}
+.ui2{background:var(--dim2);border:0.5px solid var(--border);border-radius:8px;padding:9px 13px;font-size:13px;color:rgba(245,242,235,0.85);}
+
+/* KEYBOARD HINT */
+.kb-hint{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:0.08em;pointer-events:none;}
+</style>
+</head>
+<body>
+
+<div class="deck">
+  <div class="nav">
+    <div class="nav-logo">CREATEVYRAL</div>
+    <div class="nav-right">
+      <button class="btn" id="prevBtn" onclick="changeSlide(-1)">← Prev</button>
+      <span class="nav-slide-info" id="counter">1 / 13</span>
+      <button class="btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress" style="width:7.69%"></div></div>
+  <div class="dots" id="dotsContainer"></div>
+
+  <!-- S1: COVER -->
+  <div class="slide active" id="slide-1">
+    <div class="slide-body">
+      <div class="cover-eyebrow" style="font-size:11px;text-transform:uppercase;letter-spacing:0.2em;color:var(--orange);margin-bottom:1rem;">Investor Deck · April 2026 · Confidential</div>
+      <div class="h1">India's First AI-Powered<br><span class="accent">Creator Infrastructure</span><br>Platform.</div>
+      <div class="sub" style="margin-top:0.8rem;">One subscription. Content production, CA-managed finances, legal protection and health coverage — everything a South Indian creator needs, built into one platform.</div>
+      <div class="orange-line"></div>
+      <div class="cover-meta">
+        <div class="cm"><strong>Balajii Swaroop Andhavarapu</strong>Founder & CEO</div>
+        <div class="cm"><strong>V-Hub, MBU</strong>Incubated at</div>
+        <div class="cm"><strong>Tirupati, AP</strong>Based in</div>
+        <div class="cm"><strong>₹30 Lakhs</strong>Seeking</div>
+        <div class="cm"><strong>15% Equity</strong>₹2 Crore Valuation</div>
+      </div>
+    </div>
+    <div class="slide-num">01</div>
+  </div>
+
+  <!-- S2: PROBLEM -->
+  <div class="slide" id="slide-2">
+    <div class="slide-body">
+      <div class="tag">The Problem</div>
+      <div class="h2">Creators earn.<br><span class="accent">But nobody supports them.</span></div>
+      <div class="sub">50M+ creators in South India are running full businesses completely alone.</div>
+      <div class="g3" style="margin-top:1rem;">
+        <div class="card"><div class="card-lbl">No content support</div><div class="card-body">No editors, no shoot slots, no strategy. Creators burn out making everything alone with zero professional support.</div></div>
+        <div class="card"><div class="card-lbl">Zero financial management</div><div class="card-body">Brand deal money comes in and goes out. No CA, no ITR filing. Creators have no idea where their money goes.</div></div>
+        <div class="card"><div class="card-lbl">No legal protection</div><div class="card-body">Creators sign brand deals blindly. No contract review. No IP protection. One bad deal destroys months of work.</div></div>
+        <div class="card"><div class="card-lbl">No health cover</div><div class="card-body">Freelancers get zero corporate benefits. No health insurance. One hospital visit wipes out months of earnings.</div></div>
+        <div class="card"><div class="card-lbl">No growth system</div><div class="card-body">Creators grow inconsistently with no one tracking performance, arranging collabs or managing their brand pipeline.</div></div>
+        <div class="card"><div class="card-lbl">Regional creators ignored</div><div class="card-body">Every platform is built for Hindi and English. Telugu, Tamil, Kannada, Malayalam creators are completely left out.</div></div>
+      </div>
+    </div>
+    <div class="slide-num">02</div>
+  </div>
+
+  <!-- S3: SOLUTION -->
+  <div class="slide" id="slide-3">
+    <div class="slide-body">
+      <div class="tag">Our Solution</div>
+      <div class="h2">One platform.<br><span class="accent">Six pillars. Zero gaps.</span></div>
+      <div class="sub">Createvyral is the operating system for South Indian creators. Content, finance, legal, health, growth and income — all under one subscription.</div>
+      <div class="g3" style="margin-top:1rem;">
+        <div class="card"><div class="card-lbl">Content</div><div class="card-body">15–30 edited videos/month · Dedicated editor · Content strategy + scheduling · AI caption & script tool · Creator LMS</div></div>
+        <div class="card"><div class="card-lbl">Finance</div><div class="card-body">Personal CA assigned (Pro) · ITR + GST filing · SIP & investment guidance · Monthly P&L report · Brand deal invoicing</div></div>
+        <div class="card"><div class="card-lbl">Legal</div><div class="card-body">Brand contract review · IP + copyright protection · Defamation handling · Law firm partnership backend</div></div>
+        <div class="card"><div class="card-lbl">Health</div><div class="card-body">Group health insurance ₹2L+ · Acko / Niva Bupa tie-up · First platform in India offering this</div></div>
+        <div class="card"><div class="card-lbl">Growth</div><div class="card-body">Personal growth manager · Creator credit score · Collab matchmaking marketplace · Verified by Createvyral badge</div></div>
+        <div class="card"><div class="card-lbl">Income</div><div class="card-body">Brand deal pipeline access · Creator cashback · Gear loan (DJI, mic, gimbal) · Studio access tie-ups</div></div>
+      </div>
+    </div>
+    <div class="slide-num">03</div>
+  </div>
+
+  <!-- S4: CV VOICE FORGE -->
+  <div class="slide" id="slide-4">
+    <div class="slide-body">
+      <div class="tag">Product Spotlight</div>
+      <div class="h2">CV Voice Forge<br><span class="accent">AI Voice for Regional Creators</span></div>
+      <div class="divider"></div>
+      <div class="g2c">
+        <div>
+          <div class="sub">Most AI voice tools are built for global English audiences. CV Voice Forge is built for India.</div>
+          <ul class="flist" style="margin-top:1rem;">
+            <li>AI voice cloning in creator's own voice</li>
+            <li>Text-to-speech generation</li>
+            <li>AI video dubbing — multilingual</li>
+            <li>Reels, YouTube, podcast & ad voiceovers</li>
+            <li>Downloadable AI voice outputs</li>
+            <li>AI Audio Studio — full creator workflow</li>
+          </ul>
+        </div>
+        <div>
+          <div class="card-lbl" style="margin-bottom:0.6rem;">Supported languages</div>
+          <div class="pill-row">
+            <span class="pill">Telugu</span><span class="pill">Tamil</span><span class="pill">Kannada</span>
+            <span class="pill">Malayalam</span><span class="pill">Hindi</span><span class="pill">English</span>
+          </div>
+          <div style="margin-top:1.1rem;" class="card">
+            <div class="card-lbl">Market opportunity</div>
+            <div class="card-body">600M+ regional language users in India. South Indian creators scaling short-form content production — completely ignored by every global AI voice platform.</div>
+          </div>
+          <div style="margin-top:10px;" class="card" style="border-color:rgba(255,90,31,0.3);">
+            <div class="card-lbl">Why we win</div>
+            <div class="card-body">ElevenLabs, Murf, Descript — all English-first. We're Telugu-first, Tamil-first, Kannada-first. This is our default moat.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">04</div>
+  </div>
+
+  <!-- S5: TRACTION -->
+  <div class="slide" id="slide-5">
+    <div class="slide-body">
+      <div class="tag">Traction · Pre-Funding</div>
+      <div class="h2">Real money.<br><span class="accent">Real campaigns. Real proof.</span></div>
+      <div class="sub">Everything below was built before raising a single rupee of external investment — from a college campus in Tirupati.</div>
+      <div class="g4" style="margin-top:1rem;">
+        <div class="card"><div class="card-lbl">Creators in network</div><div class="card-val">1,300+</div><div class="card-desc">Onboarded across South India</div></div>
+        <div class="card"><div class="card-lbl">Meme pages managed</div><div class="card-val">900+</div><div class="card-desc">Across South India</div></div>
+        <div class="card"><div class="card-lbl">Campaign value</div><div class="card-val accent">₹55L+</div><div class="card-desc">Total brand campaign value</div></div>
+        <div class="card"><div class="card-lbl">Profit generated</div><div class="card-val accent">₹6L+</div><div class="card-desc">Pre-funding, zero investment</div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="sn">70M+</div><div class="sl">Total views generated</div></div>
+        <div class="stat-item"><div class="sn">50M+</div><div class="sl">AstroTalk campaign views</div></div>
+        <div class="stat-item"><div class="sn">AstroTalk</div><div class="sl">Confirmed brand client</div></div>
+        <div class="stat-item"><div class="sn">2</div><div class="sl">Celebrity collaborations</div></div>
+        <div class="stat-item"><div class="sn">Mar 20</div><div class="sl">Website launched, 2026</div></div>
+      </div>
+    </div>
+    <div class="slide-num">05</div>
+  </div>
+
+  <!-- S6: CAMPAIGNS -->
+  <div class="slide" id="slide-6">
+    <div class="slide-body">
+      <div class="tag">Our Work · Case Studies</div>
+      <div class="h2">Campaigns we ran.<br><span class="accent">Results we delivered.</span></div>
+      <div class="divider"></div>
+      <div class="camp-hero">
+        <div class="camp-brand">Brand Campaign · AstroTalk</div>
+        <div class="camp-name">South India Influencer Push</div>
+        <div class="camp-desc">Multi-creator influencer campaign across Telugu, Tamil, Kannada and Malayalam markets. End-to-end execution — creator sourcing, scripting, production and delivery for AstroTalk's regional expansion.</div>
+        <div class="camp-stats">
+          <div><div class="cs-n">₹55L</div><div class="cs-l">Campaign value</div></div>
+          <div><div class="cs-n">50M+</div><div class="cs-l">Views generated</div></div>
+          <div><div class="cs-n">4</div><div class="cs-l">Regional languages</div></div>
+          <div><div class="cs-n">Dec–Feb</div><div class="cs-l">Campaign period</div></div>
+        </div>
+      </div>
+      <div class="g2" style="margin-top:10px;">
+        <div class="collab-card">
+          <div class="ctag">Celebrity Collab · Telugu</div>
+          <div class="cname">Bigg Boss Divi</div>
+          <div class="cdesc">High-engagement Telugu creator collaboration. Full brief, script and delivery managed by Createvyral for the regional audience.</div>
+          <div class="cstat">Telugu market · Mass reach</div>
+        </div>
+        <div class="collab-card">
+          <div class="ctag">Celebrity Collab · Tamil</div>
+          <div class="cname">K. Bhagyaraj</div>
+          <div class="cdesc">₹10.5L Tamil celebrity deal — one of South India's most respected directors. Full collaboration executed end-to-end by Createvyral.</div>
+          <div class="cstat">₹10.5L deal value</div>
+        </div>
+      </div>
+      <div class="total-banner">
+        <div class="tb-label">Total views generated by Createvyral across all campaigns</div>
+        <div class="tb-val">70M+ Views</div>
+      </div>
+    </div>
+    <div class="slide-num">06</div>
+  </div>
+
+  <!-- S7: REVENUE MATH -->
+  <div class="slide" id="slide-7">
+    <div class="slide-body">
+      <div class="tag">The Math · 10% Conversion</div>
+      <div class="h2">10% conversion =<br><span class="accent">₹12.4L MRR.</span></div>
+      <div class="rev-hero" style="margin-top:0.8rem;">
+        <div>
+          <div class="rh-label">Projected MRR at 10% conversion</div>
+          <div class="rh-val">₹12,43,760</div>
+          <div class="rh-sub">130 paying creators · 1,300+ already in network</div>
+        </div>
+        <div><div class="rh-tag">The investment converts existing distribution into recurring subscription revenue. Distribution is built. We need fuel.</div></div>
+      </div>
+      <table class="rev-table">
+        <thead><tr><th>Plan</th><th>Price</th><th style="text-align:right;">Creators (10%)</th><th style="text-align:right;">Monthly Revenue</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pbadge pb-s">Starter</span></td><td style="color:var(--muted);">₹4,999 · Below 50K</td><td class="cr">60</td><td class="num">₹2,99,940</td></tr>
+          <tr><td><span class="pbadge pb-g">Growth</span></td><td style="color:var(--muted);">₹7,999 · 50K–100K</td><td class="cr">50</td><td class="num">₹3,99,950</td></tr>
+          <tr><td><span class="pbadge pb-p">Pro</span></td><td style="color:var(--muted);">₹15,999 · 100K–150K+</td><td class="cr">20</td><td class="num">₹3,19,980</td></tr>
+          <tr class="addon"><td><span class="pbadge pb-a">Overage Videos</span></td><td style="color:var(--muted);">avg 5 extra × ₹799</td><td class="cr">130</td><td class="num" style="color:var(--orange2);">₹1,03,870</td></tr>
+          <tr class="addon"><td><span class="pbadge pb-a">Starter Add-ons</span></td><td style="color:var(--muted);">avg ₹2,000/creator</td><td class="cr">60</td><td class="num" style="color:var(--orange2);">₹1,20,000</td></tr>
+        </tbody>
+      </table>
+      <div class="rev-total">
+        <div><div class="rt-label">Total projected MRR</div><div style="font-size:11px;color:var(--muted);margin-top:2px;">At 20% conversion → ₹24.8L MRR. The network exists. Conversion is the only variable.</div></div>
+        <div style="text-align:right;"><div class="rt-val">₹12,43,760 / month</div><div style="font-size:11px;color:var(--muted);margin-top:2px;">₹1.49 Cr ARR at 10% conversion</div></div>
+      </div>
+    </div>
+    <div class="slide-num">07</div>
+  </div>
+
+  <!-- S8: COMPETITIVE MOAT -->
+  <div class="slide" id="slide-8">
+    <div class="slide-body">
+      <div class="tag">Competitive Moat</div>
+      <div class="h2">Nobody can<br><span class="accent">copy this.</span></div>
+      <div class="sub">Five compounding moats that make Createvyral extremely difficult to replicate.</div>
+      <div class="g3" style="margin-top:1rem;">
+        <div class="moat-card"><div class="mn">01</div><div class="mt">Distribution built before funding</div><div class="md">1,300+ creators and 900+ meme pages in the network with zero external investment. Getting distribution is the hardest part. We already did it.</div></div>
+        <div class="moat-card"><div class="mn">02</div><div class="mt">CA dependency = near-zero churn</div><div class="md">Once a creator's ITR, investments and financial records are managed by us, switching cost is enormous. No other creator platform has this lock-in mechanism.</div></div>
+        <div class="moat-card"><div class="mn">03</div><div class="mt">Regional language depth</div><div class="md">Telugu, Tamil, Kannada, Malayalam — we built in South India, for South India. Every national competitor focuses on Hindi and English. We own this market by default.</div></div>
+        <div class="moat-card"><div class="mn">04</div><div class="mt">Full-stack model can't be rushed</div><div class="md">CA partnerships, legal tie-ups, health insurance empanelment, gear inventory — each pillar takes months. We're already building all simultaneously.</div></div>
+        <div class="moat-card"><div class="mn">05</div><div class="mt">No competitor does all 6 pillars</div><div class="md">No creator platform in India handles content + finance + legal + health under one roof. Especially not in Telugu, Tamil, Kannada, Malayalam.</div></div>
+        <div class="moat-card" style="border-color:rgba(255,90,31,0.3);background:rgba(255,90,31,0.04);"><div class="mn" style="color:var(--orange);opacity:1;font-size:1.2rem;">→</div><div class="mt" style="color:var(--orange);">The result</div><div class="md" style="color:rgba(245,242,235,0.7);">A competitor starting from zero today would need 12–18 months just to replicate our distribution — before building a single product feature.</div></div>
+      </div>
+    </div>
+    <div class="slide-num">08</div>
+  </div>
+
+  <!-- S9: PRICING -->
+  <div class="slide" id="slide-9">
+    <div class="slide-body">
+      <div class="tag">Pricing · Creator Tiers</div>
+      <div class="h2">Tiered by follower size.<br><span class="accent">Not just features.</span></div>
+      <div class="sub">Outside market rate is ₹1,000 per video. Our plans deliver 2–10x savings vs hiring freelance editors alone.</div>
+      <div class="g4" style="margin-top:1rem;">
+        <div class="price-card">
+          <div class="ptier">Starter</div>
+          <div class="pamt">₹4,999<span class="pmo">/mo</span></div>
+          <div class="pfor">Below 50K followers</div>
+          <div style="font-size:10px;color:rgba(255,138,90,0.8);margin-top:3px;">Market value ₹15,000/mo</div>
+          <div class="pfeat">15 edited videos/month<br>Dedicated editor assigned<br>48-hour delivery SLA<br>Basic content scheduling<br>LMS access<br>Extra video at ₹799</div>
+        </div>
+        <div class="price-card hot">
+          <div class="pop-badge">Most Popular</div>
+          <div class="ptier">Growth</div>
+          <div class="pamt">₹7,999<span class="pmo">/mo</span></div>
+          <div class="pfor">50K – 100K followers</div>
+          <div style="font-size:10px;color:rgba(255,138,90,0.8);margin-top:3px;">Market value ₹25,000/mo</div>
+          <div class="pfeat">25 edited videos/month<br>Content strategy + scheduling<br>Brand deal access<br>Basic CA support (quarterly)<br>Verified by Createvyral badge<br>Collab matchmaking</div>
+        </div>
+        <div class="price-card">
+          <div class="ptier">Pro</div>
+          <div class="pamt">₹15,999<span class="pmo">/mo</span></div>
+          <div class="pfor">100K – 150K+ followers</div>
+          <div style="font-size:10px;color:rgba(255,138,90,0.8);margin-top:3px;">Market value ₹30,000/mo</div>
+          <div class="pfeat">30 edited videos/month<br>Personal CA assigned<br>ITR + investment management<br>Legal contract review<br>Health insurance cover<br>Gear loan · Growth manager</div>
+        </div>
+        <div class="price-card" style="border-color:rgba(255,90,31,0.35);">
+          <div class="ptier">Elite</div>
+          <div class="pamt">₹50,000<span class="pmo">/mo</span></div>
+          <div class="pfor">Premium creators</div>
+          <div class="pfeat">Full creator management<br>AI growth infrastructure<br>Brand + celebrity deals<br>CV Voice Forge access<br>All 6 pillars active<br>Priority everything</div>
+        </div>
+      </div>
+      <div style="margin-top:0.8rem;font-size:11px;color:var(--muted);">Extra video: ₹799 each · Content Studio: 60/40 revenue split · Starter Add-On Menu: Brand deal access +₹1,000/mo · Basic CA +₹1,999/mo · Growth manager +₹500/mo · Gear loan +₹2,500/mo</div>
+    </div>
+    <div class="slide-num">09</div>
+  </div>
+
+  <!-- S10: CREATOR LOAN -->
+  <div class="slide" id="slide-10">
+    <div class="slide-body">
+      <div class="tag">Creator Loans · Month 6</div>
+      <div class="h2">No bank does this.<br><span class="accent">We will.</span></div>
+      <div class="sub">Creators earn inconsistently. Banks reject them — no salary slip, no loan. We already have their income data, ITR, Creator Credit Score and CIBIL.</div>
+      <div class="g2c" style="margin-top:1rem;">
+        <div>
+          <div class="card" style="margin-bottom:10px;">
+            <div class="card-lbl">Eligibility model</div>
+            <div style="margin-top:0.7rem;">
+              <div class="elig-row"><span class="elig-lbl">Creator Credit Score (internal)</span><div class="elig-track"><div class="elig-fill" style="width:40%"></div></div><span class="elig-pct">40%</span></div>
+              <div class="elig-row"><span class="elig-lbl">CIBIL Score</span><div class="elig-track"><div class="elig-fill" style="width:30%"></div></div><span class="elig-pct">30%</span></div>
+              <div class="elig-row"><span class="elig-lbl">Monthly income proof (brand deals)</span><div class="elig-track"><div class="elig-fill" style="width:20%"></div></div><span class="elig-pct">20%</span></div>
+              <div class="elig-row"><span class="elig-lbl">Platform tenure on Createvyral</span><div class="elig-track"><div class="elig-fill" style="width:10%"></div></div><span class="elig-pct">10%</span></div>
+            </div>
+          </div>
+          <div class="nbfc-bar">
+            <div><div class="nbfc-lbl">NBFC partners</div><div class="nbfc-val">KreditBee · MoneyTap · Lendingkart</div></div>
+            <div style="text-align:right;"><div class="nbfc-lbl">Revenue model</div><div class="nbfc-val">1–3% per loan disbursed</div></div>
+          </div>
+          <div class="note">Zero default risk — NBFC gives the actual loan. We send eligible creators and earn a platform revenue share. Co-branded: "Createvyral Creator Loan powered by X."</div>
+        </div>
+        <div>
+          <div class="card-lbl" style="margin-bottom:0.7rem;">Loan tiers</div>
+          <div class="loan-tier">
+            <div class="lt-name">Micro Loan</div>
+            <div class="lt-amt">₹10,000 – ₹50,000</div>
+            <div class="lt-for">Starter plan creators · Gear, equipment, content production costs</div>
+          </div>
+          <div class="loan-tier" style="border-color:rgba(255,90,31,0.4);">
+            <div class="lt-name">Growth Loan</div>
+            <div class="lt-amt">₹50,000 – ₹2 Lakhs</div>
+            <div class="lt-for">Growth plan creators · Studio setup, travel, production scaling</div>
+          </div>
+          <div class="loan-tier">
+            <div class="lt-name">Pro Loan</div>
+            <div class="lt-amt">₹2 Lakhs – ₹10 Lakhs</div>
+            <div class="lt-for">Pro plan creators · Business expansion, team hiring, brand building</div>
+          </div>
+          <div class="note" style="margin-top:8px;">No bank gives loans to freelance creators. No creator platform offers loans anywhere in India. We will be the first — and our Creator Credit Score is the key that unlocks it.</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">10</div>
+  </div>
+
+  <!-- S11: GOVERNMENT -->
+  <div class="slide" id="slide-11">
+    <div class="slide-body">
+      <div class="tag">The Biggest Opportunity</div>
+      <div class="h2">The Government just<br><span class="accent">validated everything we build.</span></div>
+      <div class="g2c" style="margin-top:1rem;">
+        <div>
+          <div class="bill-badge">National Creator Economy Bill, 2026 — Rajya Sabha · April 14, 2026</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:0.7rem;">Bill requirements vs Createvyral</div>
+          <div class="map-row"><span class="map-bill">Professional registration for creators</span><span class="map-check">✓</span><span class="map-cv">Our onboarding system</span></div>
+          <div class="map-row"><span class="map-bill">Creator Welfare Fund — health insurance</span><span class="map-check">✓</span><span class="map-cv">Pro plan health cover</span></div>
+          <div class="map-row"><span class="map-bill">Standardized brand contracts</span><span class="map-check">✓</span><span class="map-cv">Legal pillar</span></div>
+          <div class="map-row"><span class="map-bill">Transparent paid partnership disclosures</span><span class="map-check">✓</span><span class="map-cv">CA + invoicing system</span></div>
+          <div class="map-row"><span class="map-bill">Dispute resolution with brands</span><span class="map-check">✓</span><span class="map-cv">Growth manager + legal</span></div>
+          <div class="endgame">The end game: become the official private sector compliance and registration partner for the National Creator Economy Bill across India — starting with South India first.</div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:0.7rem;">3-phase government partnership plan</div>
+          <div class="phase-row"><span class="phase-lbl">Month 6–9</span><span class="phase-desc">Full bill compliance live · All 5 requirements on platform · Approach AP govt as first mover</span></div>
+          <div class="phase-row"><span class="phase-lbl">Month 9–12</span><span class="phase-desc">DPIIT Startup India application · Ministry of I&B meeting · Skill India LMS tie-up · AP Creator Hub launch</span></div>
+          <div class="phase-row"><span class="phase-lbl">Year 2</span><span class="phase-desc">Official registration partner — every creator who must register under the bill comes through Createvyral</span></div>
+          <div class="card" style="margin-top:10px;">
+            <div class="card-lbl">Who we approach</div>
+            <ul class="flist" style="margin-top:6px;">
+              <li>Ministry of Information & Broadcasting</li>
+              <li>DPIIT — Startup India (non-dilutive grants + recognition)</li>
+              <li>Skill India / NSDC — Creator LMS + certification tie-up</li>
+              <li>Govt of Andhra Pradesh — V-Hub connection · AP Creator Hub</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">11</div>
+  </div>
+
+  <!-- S12: LEADERSHIP -->
+  <div class="slide" id="slide-12">
+    <div class="slide-body">
+      <div class="tag">Leadership & Ownership</div>
+      <div class="h2">Founder-led.<br><span class="accent">Institutionally backed.</span></div>
+      <div class="divider"></div>
+      <div class="g2c">
+        <div>
+          <div class="card" style="margin-bottom:12px;">
+            <div class="card-lbl">Founder & CEO</div>
+            <div style="font-family:var(--syne);font-size:1.3rem;font-weight:700;color:var(--white);margin-top:6px;">Balajii Swaroop Andhavarapu</div>
+            <div style="font-size:12px;color:var(--orange);margin-top:4px;font-weight:500;">95% equity · Createvyral Marketing LLP</div>
+            <div style="font-size:13px;color:rgba(245,242,235,0.75);margin-top:10px;line-height:1.8;">
+              20 yrs · AWS Certified · Prompt Engineering<br>
+              3rd-year B.Tech, CSE (AI & ML) · Mohan Babu University<br>
+              Active in influencer marketing since Year 1 of college<br>
+              Built Createvyral from ₹0 to ₹55L+ campaign value — pre-funding
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-lbl">Institutional partner</div>
+            <div style="font-family:var(--syne);font-size:1rem;font-weight:700;color:var(--white);margin-top:6px;">V-Hub Incubation Centre</div>
+            <div style="font-size:12px;color:var(--orange);margin-top:3px;font-weight:500;">5% equity stake</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:5px;line-height:1.6;">Mohan Babu University, Tirupati · Mentorship + workspace + institutional network</div>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <div class="card-lbl">Execution team</div>
+            <div style="font-size:13px;color:rgba(245,242,235,0.8);margin-top:5px;line-height:1.7;">7-member team covering video editing, influencer outreach, brand operations, creator management, tech & platform, CA coordination</div>
+          </div>
+        </div>
+        <div>
+          <div class="card-lbl" style="margin-bottom:0.6rem;">Ownership structure</div>
+          <div class="eq-bar">
+            <div class="eq-main" style="width:95%;"><span class="eq-lbl">Balajii Swaroop — 95%</span></div>
+            <div class="eq-vhub" style="width:5%;min-width:44px;"><span class="eq-lbl2">5%</span></div>
+          </div>
+          <div class="eq-legend">
+            <div class="eq-leg-item"><div class="eq-dot" style="background:var(--orange);"></div>Balajii Swaroop Andhavarapu — Founder & CEO (95%)</div>
+            <div class="eq-leg-item"><div class="eq-dot" style="background:rgba(255,90,31,0.3);border:1px solid var(--orange);"></div>V-Hub Incubation Centre, MBU (5%)</div>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <div class="card-lbl">Legal entity</div>
+            <div style="font-size:14px;font-weight:500;color:var(--white);margin-top:6px;">Createvyral Marketing LLP</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Registered · Tirupati, Andhra Pradesh</div>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <div class="card-lbl">Website</div>
+            <div style="font-size:13px;color:var(--orange);margin-top:5px;font-weight:500;">createvyral.buzz</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:3px;">Live since March 20, 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">12</div>
+  </div>
+
+  <!-- S13: ASK -->
+  <div class="slide" id="slide-13">
+    <div class="slide-body">
+      <div class="tag">The Ask</div>
+      <div class="h2">We are raising<br><span class="accent">₹30 Lakhs.</span></div>
+      <div class="g2c" style="margin-top:1rem;">
+        <div>
+          <div class="raise-box">
+            <div class="r-lbl">Currently raising</div>
+            <div class="r-val">₹30 Lakhs</div>
+            <div class="r-sub">15% equity · ₹2 Crore valuation · Seed round</div>
+          </div>
+          <div class="g2" style="margin-top:10px;">
+            <div class="card"><div class="card-lbl">Projected MRR</div><div style="font-family:var(--syne);font-size:1.1rem;font-weight:700;color:var(--orange);margin-top:4px;">₹12.4L/mo</div><div class="card-desc">At 10% network conversion</div></div>
+            <div class="card"><div class="card-lbl">Projected ARR</div><div style="font-family:var(--syne);font-size:1.1rem;font-weight:700;color:var(--orange);margin-top:4px;">₹1.49 Cr</div><div class="card-desc">Annual recurring revenue</div></div>
+          </div>
+          <div class="quote-box">"We built a 1,300+ creator network and executed ₹45 lakhs in campaigns — from a college campus with zero external funding. The Government of India just passed a law that makes everything we build mandatory. The network is built. The law is on our side. We just need fuel to ignite it."<br><br>— Balajii Swaroop Andhavarapu, Founder & CEO</div>
+        </div>
+        <div>
+          <div class="card-lbl" style="margin-bottom:0.7rem;">Use of funds — ₹30 Lakhs</div>
+          <div class="use-item"><div><div class="ui-amt">₹8L — Creator Acquisition</div><div class="ui-desc">Paid ads, influencer promos, regional campaigns to convert 1,300 creator network into paying subscribers</div></div></div>
+          <div class="use-item"><div><div class="ui-amt">₹6L — Tech & Platform</div><div class="ui-desc">Creator dashboard, finance portal, AI content tool, credit score system build-out</div></div></div>
+          <div class="use-item"><div><div class="ui-amt">₹6L — Team Expansion</div><div class="ui-desc">Scale from 7 to 15+ members — editors, growth managers, CA coordinators, ops team</div></div></div>
+          <div class="use-item"><div><div class="ui-amt">₹4L — CA & Legal Setup</div><div class="ui-desc">Pro tier operations — CA firm integration, legal firm tie-up, creator onboarding flow</div></div></div>
+          <div class="use-item"><div><div class="ui-amt">₹3L — Gear & Operations</div><div class="ui-desc">Expand gear inventory for Premium plans, shoot equipment, operational infrastructure</div></div></div>
+          <div class="use-item"><div><div class="ui-amt">₹3L — Buffer & Legal</div><div class="ui-desc">LLP registration completion, working capital, unexpected operational costs</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">13</div>
+  </div>
+
+</div>
+
+<div class="kb-hint">← → arrow keys to navigate</div>
+
+<script>
+let current = 1;
+const total = 13;
+const dotsContainer = document.getElementById('dotsContainer');
+
+for (let i = 1; i <= total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 1 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsContainer.appendChild(d);
+}
+
+function goTo(n) {
+  document.getElementById('slide-' + current).classList.remove('active');
+  dotsContainer.children[current - 1].classList.remove('active');
+  current = n;
+  document.getElementById('slide-' + current).classList.add('active');
+  dotsContainer.children[current - 1].classList.add('active');
+  document.getElementById('counter').textContent = current + ' / ' + total;
+  document.getElementById('prevBtn').disabled = current === 1;
+  document.getElementById('nextBtn').disabled = current === total;
+  document.getElementById('progress').style.width = ((current / total) * 100) + '%';
+}
+
+function changeSlide(dir) {
+  const next = current + dir;
+  if (next >= 1 && next <= total) goTo(next);
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+});
+
+document.getElementById('prevBtn').disabled = true;
+</script>
+</body>
+</html>
